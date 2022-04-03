@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import FirebaseFirestoreSwift
 
-class Circle:ObservableObject, Identifiable, Codable{
+class HackCircle:ObservableObject, Identifiable, Codable{
     @DocumentID var id: String? = UUID().uuidString
     var name: String
     

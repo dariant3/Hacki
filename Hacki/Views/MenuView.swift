@@ -9,6 +9,8 @@ import SwiftUI
 import FirebaseAuth
 
 struct MenuView: View {
+    @EnvironmentObject var vm: LoginViewModel
+
     var body: some View {
         VStack(alignment: .leading){
             HStack{
@@ -18,21 +20,14 @@ struct MenuView: View {
                     .font(.headline)
             }
             .onTapGesture {
-                signOut()
+                vm.signOut()
+                vm.loginStatus = ""
+                HackiApp()
             }
             Spacer()
         }
         .padding()
         .frame(maxWidth:.infinity,alignment: .leading)
-    }
-}
-
-func signOut(){
-    do{
-        try Auth.auth().signOut()
-        
-    } catch let err{
-        print(err)
     }
 }
 

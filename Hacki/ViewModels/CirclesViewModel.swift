@@ -10,11 +10,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class CirclesViewModel:ObservableObject{
-    @Published var circles = [Circle]()
+    @Published var circles = [HackCircle]()
     
     private var db = Firestore.firestore()
-    
-
     
     func fetchData() {
         db.collection("circles").addSnapshotListener{ (querySnapshot,error) in
@@ -22,8 +20,8 @@ class CirclesViewModel:ObservableObject{
                 print("No documents")
                 return
             }
-            self.circles = documents.compactMap{ (queryDocumentSnapshot) -> Circle? in
-                return try? queryDocumentSnapshot.data(as: Circle.self)
+            self.circles = documents.compactMap{ (queryDocumentSnapshot) -> HackCircle? in
+                return try? queryDocumentSnapshot.data(as: HackCircle.self)
             }
             
         }

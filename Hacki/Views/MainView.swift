@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var viewModel: appViewModel
-    @State var showMenu = false
+    @EnvironmentObject var viewModel: LoginViewModel
+    
     
     //let user: User
     var body: some View {
