@@ -8,36 +8,52 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var viewModel: LoginViewModel
-    
-    
-    //let user: User
+    @EnvironmentObject var vm: LocationViewModel
     var body: some View {
         
-        GeometryReader{ geometry in
-            ZStack(alignment: .leading){
-                TabView {
-                    ProfileView()
-                        .tabItem{
-                            Label("Profile",systemImage: "person.circle")
-                        }
-                    SessionView()
-                        .tabItem{
-                            Label("Session",systemImage: "arrowtriangle.right.circle")
-                        }
-                    MapView()
-                        .tabItem{
-                            Label("Community",systemImage: "globe.americas.fill")
-                        }
-                    MenuView()
-                        .tabItem{
-                            Label("Menu",systemImage:"line.3.horizontal.circle")
-                        }
-                    
+        TabView {
+            ProfileView()
+                .tabItem{
+                    Label("Profile",systemImage: "person.circle")
                 }
-                
+            SessionView()
+                .tabItem{
+                    Label("Sessions",systemImage: "arrowtriangle.right.circle")
+                }
+            switch vm.authorizationStatus {
+            case .notDetermined:
+                RequestLocationView()
+                    .tabItem{
+                        Label("Map",systemImage: "globe.americas.fill")
+                    }
+            case .restricted:
+                ErrorView(errorText: "Location use is restricted.")
+                    .tabItem{
+                        Label("Map",systemImage: "globe.americas.fill")
+                    }
+            case .denied:
+                ErrorView(errorText: "The app does not have location permissions. Please enable them in settings.")
+                    .tabItem{
+                        Label("Map",systemImage: "globe.americas.fill")
+                    }
+            case .authorizedAlways, .authorizedWhenInUse:
+                MapView()
+                    .tabItem{
+                        Label("Map",systemImage: "globe.americas.fill")
+                    }
+            default:
+                Text("Unexpected status")
             }
+//            MapInitialView()
+//                .tabItem{
+//                    Label("Map",systemImage: "globe.americas.fill")
+//                }
+            MenuView()
+                .tabItem{
+                    Label("Menu",systemImage:"line.3.horizontal.circle")
+                }
         }
+        
     }
 }
 

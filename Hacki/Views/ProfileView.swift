@@ -8,38 +8,86 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var uvm : UserViewModel
+    
+    @State var shouldShowImagePicker = false
+    //@State var profilePic: UIImage?
+    
     var body: some View {
-        ZStack{
-            VStack{
-                Image("hackysack")
+        VStack(){
+            ZStack{
+                Image("bg")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .topLeading)
                     .clipped()
-                HStack{
-                    Spacer()
-                    Text("Darian Tichler")
-                        .font(Font.title)
-                        .multilineTextAlignment(.trailing)
-                        .frame(width: 240, alignment: .leading)
-                }
+                    .onAppear(){
+                        uvm.fetchUser()
+                    }
+                Button{
+                    shouldShowImagePicker
+                        .toggle()
+                } label: {
+                    VStack{
+                        if let profilePic = uvm.profilePic {
+                            Image(uiImage: profilePic)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 150, height: 150)
+                                .cornerRadius(75)
+                        } else {
+                            Image(systemName: "person.fill")
+                                .font(.system(size:75))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .overlay(RoundedRectangle(cornerRadius:75)
+                                .stroke(Color.white, lineWidth: 4)
+                    )
+                } // label
             }
-            Image("profile")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 150, height: 150, alignment: .leading)
-                .clipped()
-                .cornerRadius(75)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 75)
-                        .stroke(Color.white, lineWidth: 4)
-                )
-                .offset(x: -UIScreen.main.bounds.size.width/2+85, y: 90)
+            Text(uvm.user?.userName ?? "")
+                .font(.system(size: 56.0))
+                .padding()
+            VStack{
+                HStack(spacing:20){
+                    VStack{
+                        Text("\(uvm.user?.bestRally ?? 0)")
+                            .font(.system(size: 56.0))
+                        Label("Best Rally",systemImage: "star.circle")
+                    }
+                    .frame(width: UIScreen.main.bounds.size.width/2)
+                    VStack{
+                        Text("\(uvm.user?.avgRally ?? 0)")
+                            .font(.system(size: 56.0))
+                        Label("Average Rally",systemImage: "bolt.horizontal.circle")
+                    }
+                    .frame(width: UIScreen.main.bounds.size.width/2)
+                }
+                .padding()
+                HStack(spacing:20){
+                    VStack{
+                        Text("\(uvm.user?.bestSession ?? 0)")
+                            .font(.system(size: 56.0))
+                        Label("Best Session",systemImage: "star.circle")
+                    }
+                    .frame(width: UIScreen.main.bounds.size.width/2)
+                    VStack{
+                        Text("\(uvm.user?.avgSession ?? 0)")
+                            .font(.system(size: 56.0))
+                        Label("Average Session",systemImage: "bolt.horizontal.circle")
+                    }
+                    .frame(width: UIScreen.main.bounds.size.width/2)
+                }
+                .padding()
+            }
+            
+            Spacer()
+        } // Vstack
+        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: {uvm.changeUserImage(image: uvm.profilePic!)}){
+            ImagePicker(image: $uvm.profilePic)
         }
-        .offset(y: 0)
-        .frame(minWidth: 0, maxHeight: UIScreen.main.bounds.size.height, alignment: .topLeading)
-        
-    }
+    }//body
 }
 
 struct ProfileView_Previews: PreviewProvider {

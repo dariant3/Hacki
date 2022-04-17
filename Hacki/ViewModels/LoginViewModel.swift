@@ -17,6 +17,7 @@ class LoginViewModel: ObservableObject {
     @Published var signedIn = false
     @Published var loginStatus = ""
 
+
     
     var isSignedIn: Bool{
         print(auth.currentUser?.uid)
@@ -38,7 +39,7 @@ class LoginViewModel: ObservableObject {
     }
     
     
-    func signUp(email: String, password: String){
+    func signUp(email: String, password: String, userName: String){
         auth.createUser(withEmail: email, password: password){[weak self] result, error in
             guard result != nil, error == nil else{
                 if let err = error {
@@ -50,22 +51,20 @@ class LoginViewModel: ObservableObject {
             // Success
             // Create user in firestore
             self?.loginStatus = "Succesfully created user: \(result?.user.uid ?? "")"
-            let uid = self!.auth.currentUser!.uid
-            self!.addUser(user: User(id:uid,name:"Weee",email: email))
-            
+            let user = User()
+            user.userName = userName
+            do {
+                try self?.db.collection("users").document((result?.user.uid)!).setData(from:user)
+                }
+            catch let error{
+                print(error)
+            }
             DispatchQueue.main.async {
                 self?.signedIn = true
             }
         }
     }
-    func addUser(user: User){
-        do{
-            let _ = try db.collection("users").addDocument(from:user)
-        }
-        catch{
-            print(error)
-        }
-    }
+
     func signOut(){
         try? auth.signOut()
         self.signedIn = false

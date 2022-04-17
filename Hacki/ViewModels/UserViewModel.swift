@@ -7,48 +7,58 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
+import UIKit
 
 
 class UserViewModel: ObservableObject{
     
     @Published var user: User?
-
+    @Published var profilePic: UIImage?
+    
+    let auth = Auth.auth()
     private var db = Firestore.firestore()
+    private var storageManager = StorageManager()
 
-    func addUser(user: User){
-        do{
-            let _ = try db.collection("users").addDocument(from:user)
+    
+    public func fetchUser() {
+        guard auth.currentUser != nil else{
+            return
         }
-        catch{
-            print(error)
+        let docRef = db.collection("users").document("\(auth.currentUser!.uid)")
+        
+        docRef.getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+
+            case .failure(let error):
+                print("Error decoding document: \(error.localizedDescription)")
+            }
         }
+        self.profilePic = storageManager.fetchProfilePic()
+        if profilePic == nil {
+            print("I am nil")
+        }
+
     }
     
-//    func getUser(uid:String)
-//    {
-//        let docRef = db.collection("users").document(uid)
-//
-//        docRef.getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
+    func changeUserImage(image: UIImage){
+        storageManager.uploadImage(image: image)
+    }
     
-//    func fetchData() {
-//        db.document(<#T##documentPath: String##String#>)
-//        db.collection("circles").addSnapshotListener{ (querySnapshot,error) in
-//            guard let documents = querySnapshot?.documents else {
-//                print("No documents")
-//                return
+    func fetchUserImage() -> UIImage?{
+        storageManager.fetchProfilePic()
+    }
+//    func updateUser(user: User){
+//        if let id = user.id {
+//            let docRef = db.collection("users").document(id)
+//            do {
+//                try docRef.setData(from: user)
 //            }
-//            self.circles = documents.compactMap{ (queryDocumentSnapshot) -> Circle? in
-//                return try? queryDocumentSnapshot.data(as: Circle.self)
+//            catch {
+//                print(error)
 //            }
-//
 //        }
 //    }
 }

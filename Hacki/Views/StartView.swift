@@ -13,20 +13,15 @@ import FirebaseFirestoreSwift
 
 
 struct StartView: View {
-    @EnvironmentObject var loginVM: LoginViewModel
+    @EnvironmentObject var vm: LoginViewModel
     
     var body: some View {
-        NavigationView{
-            if loginVM.isSignedIn {
+            if vm.isSignedIn {
                 MainView()
             }
             else {
                 SignInView()
             }
-        }
-//        .onAppear{
-//            loginVM.signedIn = loginVM.isSignedIn
-//        }
     }
 }
 

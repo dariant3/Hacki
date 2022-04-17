@@ -11,51 +11,53 @@ struct SignInView: View {
     @State var email = ""
     @State var password  = ""
     
-    @EnvironmentObject var viewModel: LoginViewModel
+    @EnvironmentObject var vm: LoginViewModel
     
     var body: some View {
-        VStack{
-            Image("logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 150, height: 150)
+        NavigationView{
             VStack{
-                TextField("Email Address", text: $email)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .padding()
-                    .background()
-                    .cornerRadius(15)
-                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                
-                SecureField("Password", text: $password)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .padding()
-                    .background()
-                    .cornerRadius(15)
-                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                Text(viewModel.loginStatus)
-                    .foregroundColor(.red)
-                Button(action: {
-                    guard !email.isEmpty, !password.isEmpty else {
-                        return
-                    }
-                    viewModel.signIn(email: email, password: password)
-                }, label: {
-                    Text("Sign in")
-                        .foregroundColor(Color.white)
-                        .frame(width: 200, height: 50)
-                        .background(Color.accentColor)
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                VStack{
+                    TextField("Email Address", text: $email)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .padding()
+                        .background()
                         .cornerRadius(15)
-                })
-                
-                NavigationLink("Create Account",destination: SignUpView())
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                    
+                    SecureField("Password", text: $password)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .padding()
+                        .background()
+                        .cornerRadius(15)
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                    Text(vm.loginStatus)
+                        .foregroundColor(.red)
+                    Button(action: {
+                        guard !email.isEmpty, !password.isEmpty else {
+                            return
+                        }
+                        vm.signIn(email: email, password: password)
+                    }, label: {
+                        Text("Sign in")
+                            .foregroundColor(Color.white)
+                            .frame(width: 200, height: 50)
+                            .background(Color.accentColor)
+                            .cornerRadius(15)
+                    })
+                    NavigationLink("Create Account",destination: SignUpView())
+                }
+                .padding()
+                .onAppear{
+                    vm.loginStatus = ""
+                }
             }
-            .padding()
-            
         }
-        
     }
 }
 

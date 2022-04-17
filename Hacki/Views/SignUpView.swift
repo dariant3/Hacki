@@ -10,8 +10,11 @@ import SwiftUI
 struct SignUpView: View {
     @State var email = ""
     @State var password  = ""
-    
+    @State var userName = ""
+        
     @ObservedObject private var vm: LoginViewModel = LoginViewModel()
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack{
@@ -20,6 +23,14 @@ struct SignUpView: View {
                 .scaledToFit()
                 .frame(width: 150, height: 150)
             VStack{
+                TextField("UserName", text: $userName)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+                    .padding()
+                    .background()
+                    .cornerRadius(15)
+                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                
                 TextField("Email Address", text: $email)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -39,7 +50,7 @@ struct SignUpView: View {
                     guard !email.isEmpty, !password.isEmpty else {
                         return
                     }
-                    vm.signUp(email: email, password: password)
+                    vm.signUp(email: email, password: password, userName: userName)
                 }, label: {
                     Text("Create Account")
                         .foregroundColor(Color.white)
@@ -49,10 +60,9 @@ struct SignUpView: View {
                 })
                 Text(vm.loginStatus)
                     .foregroundColor(.red)
-            }
+            }// vstack
             .padding()
-        }
-        
+        }// vstack
     }
 }
 

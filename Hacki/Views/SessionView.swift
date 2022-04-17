@@ -7,44 +7,74 @@
 
 import SwiftUI
 import FirebaseAuth
-
+import Foundation
 
 struct SessionView: View {
+    @EnvironmentObject var vm: SessionViewModel
+    @EnvironmentObject var uvm: UserViewModel
+    @EnvironmentObject var lvm: LocationViewModel
     
-    //let auth = Auth.auth()
+//    @State private var userName = ""
+//    @State private var isSessionPlayViewShown = false
+    
     var body: some View {
         NavigationView{
-            NavigationLink(destination: SessionPlayView()){
-                Label("Start Session",systemImage: "arrowtriangle.right.circle.fill")
-                    .foregroundColor(Color.white)
-                    .frame(width: 200, height: 50)
-                    .background(Color.accentColor)
-                    .cornerRadius(15)
-            }
-            .navigationTitle("Sessions")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(StackNavigationViewStyle())
+            VStack{
+                NavigationLink(destination: SessionPlayView()){
+                    Label("Start Session",systemImage: "arrowtriangle.right.circle.fill")
+                        .foregroundColor(Color.white)
+                        .frame(width: 200, height: 50)
+                        .background(Color.accentColor)
+                        .cornerRadius(15)
+                }
+                .onAppear(){
+                    vm.fetchSessions()
+                }
+                .onDisappear(){
+                    vm.updateUserAvgs(user: uvm.user)
+                }
+                .navigationTitle("Sessions")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(StackNavigationViewStyle())
 
-//            List(viewModel.sessions) {session in
-//
-//
-//            }
-//            .onAppear(){
-//                self.viewModel.fetchData()
-//            }
-        }
-    }
-}
-
-
+                List{
+                    Section(header: HStack(){
+                        Text("Date")
+                        Spacer()
+                        Text("Avg")
+                            .frame(width: 40)
+                        Text("Best")
+                            .frame(width: 40)
+                        Text("Duration")
+                            .frame(width: 80)
+                    }){
+                        ForEach(vm.sessions.sorted{$0.rallyAvg > $1.rallyAvg}){ s in
+                            ListRow(session: s)
+                        }
+                    }
+                }
+                .listStyle(.plain)
+            }//Vstack
+            .navigationBarItems(trailing: lvm.locationVis ? Eye() :  nil)
+        }//navigationview
+    }//view
+}//sessionview
 
 struct ListRow: View {
-    //var eachSession: Session
+    @EnvironmentObject var vm: SessionViewModel
+    var session: Session
+    
     var body: some View{
-//        HStack{
-//            Text(eachSession.time)
-//        }
-        Text("")
+        HStack{
+            Text("\(vm.df.string(from: session.endTime!))")
+            Spacer()
+            Text("\(session.rallyAvg)")
+                .frame(width: 40)
+            Text("\(session.rallyBest)")
+                .frame(width: 40)
+            Text("\(vm.dcf.string(from:session.duration!) ?? "")")
+                .frame(width: 80)
+        }
     }
 }
 

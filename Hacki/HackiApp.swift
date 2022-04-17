@@ -14,11 +14,13 @@ struct HackiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            let loginModel = LoginViewModel()
-            let userModel = UserViewModel()
             StartView()
-                .environmentObject(loginModel)
-                .environmentObject(userModel)
+                .environmentObject(LoginViewModel())
+                .environmentObject(UserViewModel())
+                .environmentObject(SessionViewModel())
+                //.environmentObject(ProfileViewModel())
+                .environmentObject(LocationViewModel())
+                //.environmentObject(SessionPlayViewModel())
         }
     }
 }

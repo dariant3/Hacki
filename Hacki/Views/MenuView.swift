@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct MenuView: View {
     @EnvironmentObject var vm: LoginViewModel
+    @EnvironmentObject var lvm: LocationViewModel
 
     var body: some View {
         VStack(alignment: .leading){
@@ -20,8 +21,8 @@ struct MenuView: View {
                     .font(.headline)
             }
             .onTapGesture {
+                lvm.toggleVisibility(vis: false)
                 vm.signOut()
-                vm.loginStatus = ""
                 HackiApp()
             }
             Spacer()
