@@ -36,10 +36,7 @@ class UserViewModel: ObservableObject{
                 print("Error decoding document: \(error.localizedDescription)")
             }
         }
-        self.profilePic = storageManager.fetchProfilePic()
-        if profilePic == nil {
-            print("I am nil")
-        }
+        
 
     }
     
@@ -47,9 +44,9 @@ class UserViewModel: ObservableObject{
         storageManager.uploadImage(image: image)
     }
     
-    func fetchUserImage() -> UIImage?{
-        storageManager.fetchProfilePic()
-    }
+//    func fetchUserImage() -> UIImage?{
+//        storageManager.fetchProfilePic()
+//    }
 //    func updateUser(user: User){
 //        if let id = user.id {
 //            let docRef = db.collection("users").document(id)

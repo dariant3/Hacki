@@ -37,6 +37,7 @@
 		5997B33D28063F9A009494B2 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B33C28063F9A009494B2 /* LocationViewModel.swift */; };
 		5997B34128077180009494B2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B34028077180009494B2 /* MapView.swift */; };
 		5997B3442807B7BE009494B2 /* Eye.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B3432807B7BE009494B2 /* Eye.swift */; };
+		5997B347280DBC04009494B2 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5997B346280DBC04009494B2 /* SDWebImageSwiftUI */; };
 		59E254E728034A510069E3AE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E254E628034A510069E3AE /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5997B347280DBC04009494B2 /* SDWebImageSwiftUI in Frameworks */,
 				592BAFED27DE8BEF00B4FFA8 /* FirebaseAnalytics in Frameworks */,
 				598A8B9E27E2B259008C6F55 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				592BAFEF27DE8BEF00B4FFA8 /* FirebaseAuth in Frameworks */,
@@ -205,6 +207,7 @@
 				598A8B9727E18CB7008C6F55 /* FirebaseFirestore */,
 				598A8B9D27E2B259008C6F55 /* FirebaseFirestoreSwift-Beta */,
 				5974A01027F5436E008CADA6 /* FirebaseStorage */,
+				5997B346280DBC04009494B2 /* SDWebImageSwiftUI */,
 			);
 			productName = Hacki;
 			productReference = 592BAFD827DE766D00B4FFA8 /* Hacki.app */;
@@ -236,6 +239,7 @@
 			mainGroup = 592BAFCF27DE766D00B4FFA8;
 			packageReferences = (
 				592BAFEB27DE8BEF00B4FFA8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5997B345280DBC04009494B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 592BAFD927DE766D00B4FFA8 /* Products */;
 			projectDirPath = "";
@@ -505,6 +509,14 @@
 				kind = branch;
 			};
 		};
+		5997B345280DBC04009494B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -532,6 +544,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 592BAFEB27DE8BEF00B4FFA8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		5997B346280DBC04009494B2 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5997B345280DBC04009494B2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
