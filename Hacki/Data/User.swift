@@ -22,6 +22,7 @@ class User: ObservableObject, Identifiable, Codable{
     var avgSession: Int = 0
     var location: GeoPoint? = nil
     var locationVis: Bool? = false
+    var profileURL: String? = ""
     
     enum CodingKeys: String, CodingKey{
         case userName = "userName"
@@ -31,5 +32,6 @@ class User: ObservableObject, Identifiable, Codable{
         case avgSession = "avgSession"
         case location = "location"
         case locationVis = "locationVis"
+        case profileURL = "profileURL"
     }
 }

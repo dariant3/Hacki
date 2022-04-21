@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var uvm : UserViewModel
@@ -21,23 +22,25 @@ struct ProfileView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .topLeading)
                     .clipped()
-                    .onAppear(){
+                    .task{
                         uvm.fetchUser()
+                        //uvm.fetchProfileURL(id:nil)
                     }
+
                 Button{
                     shouldShowImagePicker
                         .toggle()
                 } label: {
                     VStack{
-                        if let profilePic = uvm.profilePic {
-                            Image(uiImage: profilePic)
+                        if let profileUrl = uvm.user?.profileURL {
+                            WebImage(url: URL(string: profileUrl))
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 150, height: 150)
                                 .cornerRadius(75)
                         } else {
-                            Image(systemName: "person.fill")
-                                .font(.system(size:75))
+                            Image(systemName: "person.circle")
+                                .font(.system(size:100))
                                 .foregroundColor(.white)
                         }
                     }
@@ -45,7 +48,7 @@ struct ProfileView: View {
                                 .stroke(Color.white, lineWidth: 4)
                     )
                 } // label
-            }
+            } // zstack
             Text(uvm.user?.userName ?? "")
                 .font(.system(size: 56.0))
                 .padding()
@@ -84,9 +87,12 @@ struct ProfileView: View {
             
             Spacer()
         } // Vstack
-        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: {uvm.changeUserImage(image: uvm.profilePic!)}){
+        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: {
+            uvm.uploadImage(image: uvm.profilePic!)
+        }){
             ImagePicker(image: $uvm.profilePic)
         }
+        
     }//body
 }
 

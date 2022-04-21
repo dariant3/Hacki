@@ -35,29 +35,42 @@ class StorageManager: ObservableObject {
         }
         
     }
-    
-    func fetchProfilePic() -> UIImage?{
-        var image: UIImage?
-
+    func fetchProfileURL() async -> URL? {
+        //var profileURL : URL? = URL(string: "")
         if let id = auth.currentUser?.uid {
-            let storageRef = storage.reference().child(id + "/profilePicture/pic.jpg")
-            
-            storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                if let error = error {
-                    print("Fetch image error:")
-                    print(error)
-                } else {
-                    // Data for "images/island.jpg" is returned
-                    image = UIImage(data: data!) ?? nil
-                    if image != nil{
-                        print("I worked")
-                    }
-                }
+            let storageRef = storage.reference(withPath: id + "/profilePicture/pic.jpg")
+            do {
+                let profileURL = try await storageRef.downloadURL()
+                return profileURL
             }
-            
+            catch{
+                print("Error")
+            }
         }
-        return image
+        return nil
     }
+//    func fetchProfilePic() -> UIImage?{
+//        var image: UIImage?
+//
+//        if let id = auth.currentUser?.uid {
+//            let storageRef = storage.reference().child(id + "/profilePicture/pic.jpg")
+//
+//            storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+//                if let error = error {
+//                    print("Fetch image error:")
+//                    print(error)
+//                } else {
+//                    // Data for "images/island.jpg" is returned
+//                    image = UIImage(data: data!) ?? nil
+//                    if image != nil{
+//                        print("I worked")
+//                    }
+//                }
+//            }
+//
+//        }
+//        return image
+//    }
     
     func deleteItem(item: StorageReference) {
         item.delete { error in

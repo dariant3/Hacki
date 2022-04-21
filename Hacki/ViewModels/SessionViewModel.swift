@@ -41,8 +41,10 @@ class SessionViewModel: ObservableObject{
                         rallyAvgs.append(session.rallyAvg)
                         sessionTotals.append(session.sessionTotal)
                     }
-                    self.avgRally = rallyAvgs.reduce(0,+) / rallyAvgs.count
-                    self.avgSession = sessionTotals.reduce(0,+) / sessionTotals.count
+                    if(rallyAvgs.count != 0 || sessionTotals.count != 0){
+                        self.avgRally = rallyAvgs.reduce(0,+) / rallyAvgs.count
+                        self.avgSession = sessionTotals.reduce(0,+) / sessionTotals.count
+                    }
                 }
             }
         }
@@ -52,12 +54,14 @@ class SessionViewModel: ObservableObject{
         if let id = auth.currentUser?.uid {
             user?.avgRally = avgRally
             user?.avgSession = avgSession
-            let docRef = db.collection("users").document(id)
-            do {
-                try docRef.setData(from: user)
-            }
-            catch {
-                print(error)
+            if (avgRally != 0 && avgSession != 0){
+                let docRef = db.collection("users").document(id)
+                do {
+                    try docRef.setData(from: user)
+                }
+                catch {
+                    print(error)
+                }
             }
         }
     }

@@ -5,20 +5,14 @@
 //  Created by Darian Tichler on 2022-04-12.
 //
 
-//import Foundation
-//import SwiftUI
+
 import CoreLocation
 import MapKit
-//import Firebase
-//import FirebaseFirestore
-//import FirebaseFirestoreSwift
-//import FirebaseAuth
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 import UIKit
-import MapKit
 
 
 

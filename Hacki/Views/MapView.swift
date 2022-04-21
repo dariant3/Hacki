@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import SDWebImageSwiftUI
 
 struct MapView: View {
     
@@ -16,15 +17,15 @@ struct MapView: View {
     
     var body: some View {
         NavigationView{
-            Map(coordinateRegion: $vm.region, showsUserLocation: false, annotationItems: vm.users) { item in
-                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: item.location!.latitude, longitude: item.location!.longitude)){
+            Map(coordinateRegion: $vm.region, showsUserLocation: false, annotationItems: vm.users) { user in
+                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: user.location!.latitude, longitude: user.location!.longitude)){
                     NavigationLink{
-                        HackerDetailsView(user: item)
+                        HackerDetailsView(user: user)
                     } label: {
-                        PlaceAnnotationView(userName: item.userName, color: item.userName == uvm.user?.userName ? .green : .red)
+                        PlaceAnnotationView(user: user, color: user.userName == uvm.user?.userName ? .green : Color(hex:"E6562A"))
                     }
                     .onAppear{
-                        print("Item ID: \(item.id ?? "")")
+                        print("Item ID: \(user.id ?? "")")
                     }
                     
                 }
@@ -46,15 +47,38 @@ struct MapView: View {
         
     }
     struct HackerDetailsView: View {
+        
         let user : User
         
         var body: some View {
             VStack{
-                Image("bg")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .topLeading)
-                    .clipped()
+                ZStack{
+                    Image("bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.size.width, height: 200, alignment: .topLeading)
+                        .clipped()
+                        .task{
+                            //uvm.fetchProfileURL(id:user.id)
+                            
+                        }
+                    VStack{
+                        if let profileUrl = user.profileURL {
+                            WebImage(url: URL(string: profileUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 150, height: 150)
+                                .cornerRadius(75)
+                        } else {
+                            Image(systemName: "person.fill")
+                                .font(.system(size:75))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .overlay(RoundedRectangle(cornerRadius:75)
+                                .stroke(Color.white, lineWidth: 4)
+                    )
+                } // zstack
                 Text(user.userName)
                     .font(.system(size: 56.0))
                     .padding()
@@ -94,28 +118,33 @@ struct MapView: View {
         }
     }
     struct PlaceAnnotationView: View {
-        //@State private var showTitle = true
-        
-        let userName: String
+        let user: User
         let color: Color
         
         var body: some View {
-            VStack(spacing: 0) {
-                Text(userName)
+            VStack(spacing: 3) {
+                Text(user.userName)
                     .font(.callout)
                     .padding(5)
                     .background(Color(.white))
                     .cornerRadius(10)
-                //.opacity(showTitle ? 0 : 1)
-                
-                Image(systemName: "mappin.circle.fill")
-                    .font(.title)
                     .foregroundColor(color)
+                if let profileUrl = user.profileURL {
+                    WebImage(url: URL(string: profileUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 26, height: 26)
+                        .cornerRadius(13)
+                } else {
+                    Image(systemName: "person.circle")
+                        .font(.system(size:20))
+                        .foregroundColor(color)
+                }
+//                Image(systemName: "mappin.circle.fill")
+//                    .font(.title)
+//                    .foregroundColor(color)
                 
-                Image(systemName: "arrowtriangle.down.fill")
-                    .font(.caption)
-                    .foregroundColor(color)
-                    .offset(x: 0, y: -5)
+                
             }
             //        .onTapGesture {
             //          withAnimation(.easeInOut) {

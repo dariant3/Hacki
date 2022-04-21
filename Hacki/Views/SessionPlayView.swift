@@ -54,10 +54,11 @@ struct SessionPlayView: View{
                     .foregroundColor(Color.accentColor)
                     .focused($isEntryFocused)
                     .multilineTextAlignment(.center)
-                    .onAppear(){
+                    .task{
                         self.isEntryFocused = true
-                        uvm.fetchUser()
+                        await uvm.fetchUser()
                     }
+
                     .frame(alignment: .topLeading)
                 VStack{
                     VStack{

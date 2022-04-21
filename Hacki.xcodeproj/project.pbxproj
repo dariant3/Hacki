@@ -38,6 +38,7 @@
 		5997B34128077180009494B2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B34028077180009494B2 /* MapView.swift */; };
 		5997B3442807B7BE009494B2 /* Eye.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B3432807B7BE009494B2 /* Eye.swift */; };
 		5997B347280DBC04009494B2 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5997B346280DBC04009494B2 /* SDWebImageSwiftUI */; };
+		5997B349280FBABC009494B2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997B348280FBABB009494B2 /* Extensions.swift */; };
 		59E254E728034A510069E3AE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E254E628034A510069E3AE /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		5997B33C28063F9A009494B2 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		5997B34028077180009494B2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		5997B3432807B7BE009494B2 /* Eye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eye.swift; sourceTree = "<group>"; };
+		5997B348280FBABB009494B2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		59E254E628034A510069E3AE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +120,7 @@
 				598A8B8A27E038B5008C6F55 /* Data */,
 				59E254E628034A510069E3AE /* ImagePicker.swift */,
 				598F7EF028036B2000FA4C9C /* StorageManager.swift */,
+				5997B348280FBABB009494B2 /* Extensions.swift */,
 			);
 			path = Hacki;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5997B349280FBABC009494B2 /* Extensions.swift in Sources */,
 				598A8B9227E042A3008C6F55 /* MapLocationAccessViews.swift in Sources */,
 				5997B3442807B7BE009494B2 /* Eye.swift in Sources */,
 				598A8BA327E2DD4B008C6F55 /* UserViewModel.swift in Sources */,
